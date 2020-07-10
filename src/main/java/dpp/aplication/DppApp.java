@@ -201,6 +201,8 @@ public class DppApp {
 				}
 			}
 
+			// (4)  Find all current projects.
+			// (5)  Find all projects started today.
 			if (action == 4 || action == 5) {
 				List<Projects> projects = null;
 				try {
@@ -271,6 +273,18 @@ public class DppApp {
 					int id = ExtarFunctional.requestIntInput(1, Integer.MAX_VALUE);
 					serviceWorkDone.editEmployeeById(id);
 				} catch (Exception e) {
+					System.out.println("Problems with database :( ...");
+					e.printStackTrace();
+				}
+			}
+			
+			// get all from WorkDone
+			if(action == 5) {
+				List<WorkDone> workDone = null;
+				try {
+					workDone = serviceWorkDone.getAllEmployee();
+					workDone.forEach(System.out::println);
+				} catch (SQLException e) {
 					System.out.println("Problems with database :( ...");
 					e.printStackTrace();
 				}

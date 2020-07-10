@@ -1,6 +1,7 @@
 package dpp.aplication.services;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -18,6 +19,11 @@ public class ServiceWorkDone {
 	private ServiceProjects serviceProjects=new ServiceProjects();
 	private Projects projects=new Projects();
 
+
+	public List<WorkDone> getAllEmployee() throws SQLException {
+		return workDoneDAO.getAllLines();
+	}
+	
 	public void addNewWorkDone() throws SQLException, NonUniqueResultException {
 		WorkDone workDone = new WorkDone();
 		workDone=fillAllInfoOverWorkDone(workDone);
@@ -105,6 +111,7 @@ public class ServiceWorkDone {
 		workDone=fillAllInfoOverWorkDone(workDone);
 		if(this.workDoneDAO.editRowById(workDone)) System.out.println("The row has been edited successfully..");
 	}
+
 
 
 }

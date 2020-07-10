@@ -64,7 +64,8 @@ public class WorkDone {
 	}
 	@Override
 	public String toString() {
-		return "WorkDone [id=" + id +", employeeId=" + employeeId + ", employees=" + employees.getName() + ", projectId=" + projectId
+		return "WorkDone [id=" + id +", employeeId=" + employeeId + ", employees=" + employees.getName() +" "+ employees.getSurname() 
+				+ ", projectId=" + projectId
 				+ ", projects(StartDate)=" + projects.getDateOfStart()
 				+ ", projects(EndDate)="+ projects.getEndDate()
 				+ ", projects(price)="+ projects.getPrice()
