@@ -52,30 +52,6 @@ public class ServiceProjects {
 		return input;
 	}
 
-//	private Date getScannerDatum(Date dateCheching) {
-//		Scanner scanner = new Scanner(System.in);
-//		String input = "";
-//		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-//		Date date = null;
-//		do {
-//			try {
-//				input = scanner.next();
-//				date = sdf.parse(input);
-//				
-//				if (date.before(dateCheching)) {
-//					
-//					System.out.println("You can't write a date earlier than "+(dateCheching==null? "NULL":sdf.format(dateCheching))+", try again:");
-//					date = null;
-//				}
-//			} catch (Exception ignore) {
-//				date = null;
-//				System.out.println("Please enter a valid date.");
-//			}
-//			
-//		} while (date == null);
-//		return date;
-//	}
-
 	public Optional<Projects> getProjectById(int id) throws SQLException, NonUniqueResultException {
 		return projectsDAO.getElementById(id);
 	}

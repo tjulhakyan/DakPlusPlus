@@ -3,6 +3,7 @@ package dpp.aplication.model;
 import java.util.Date;
 
 public class WorkDone {
+	private int id;
 	private int employeeId; 
 	private Employees employees=new Employees();
 	private int projectId; 
@@ -10,6 +11,13 @@ public class WorkDone {
 	private Date date; 
 	private double hoursWorked;
 	private String remarks;
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public int getEmployeeId() {
 		return employeeId;
 	}
@@ -56,7 +64,7 @@ public class WorkDone {
 	}
 	@Override
 	public String toString() {
-		return "WorkDone [employeeId=" + employeeId + ", employees=" + employees.getName() + ", projectId=" + projectId
+		return "WorkDone [id=" + id +", employeeId=" + employeeId + ", employees=" + employees.getName() + ", projectId=" + projectId
 				+ ", projects(StartDate)=" + projects.getDateOfStart()
 				+ ", projects(EndDate)="+ projects.getEndDate()
 				+ ", projects(price)="+ projects.getPrice()

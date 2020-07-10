@@ -90,5 +90,13 @@ public class ServiceWorkDone {
 		return input;
 	}
 
+	public Optional<WorkDone> getWorkDoneById(int id) throws NonUniqueResultException, SQLException {
+		return workDoneDAO.getElementById(id);
+	}
+
+	public boolean deleteWorkDoneById(int id) throws SQLException {
+		return workDoneDAO.deleteElementById(id);
+	}
+
 
 }

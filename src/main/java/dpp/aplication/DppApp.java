@@ -8,6 +8,7 @@ import java.util.Scanner;
 import dpp.aplication.exseptions.NonUniqueResultException;
 import dpp.aplication.model.Employees;
 import dpp.aplication.model.Projects;
+import dpp.aplication.model.WorkDone;
 import dpp.aplication.services.ExtarFunctional;
 import dpp.aplication.services.ServiceEmployees;
 import dpp.aplication.services.ServiceProjects;
@@ -90,8 +91,8 @@ public class DppApp {
 
 			// Delete Employee by id.
 			if (action == 5) {
-				System.out.print("For id ");
 				Optional<Employees> optionalEmployees = null;
+				System.out.print("For id ");
 				int id = ExtarFunctional.requestIntInput(1, Integer.MAX_VALUE);
 				try {
 					optionalEmployees = serviceEmployees.getEmployeeById(id);
@@ -170,8 +171,8 @@ public class DppApp {
 
 			// Delete Projects by id.
 			if (action == 3) {
-				System.out.print("For id ");
 				Optional<Projects> optionalProjects = null;
+				System.out.print("For id ");
 				int id = ExtarFunctional.requestIntInput(1, Integer.MAX_VALUE);
 				try {
 					optionalProjects = serviceProjects.getProjectById(id);
@@ -219,7 +220,7 @@ public class DppApp {
 		// We will use WorkDone
 		if (chooseManu == 3) {
 			ServiceWorkDone serviceWorkDone = new ServiceWorkDone();
-			// Add record.
+			// Add record (in WorkDone).
 			if (action == 2) {
 				try {
 					serviceWorkDone.addNewWorkDone();
@@ -228,6 +229,38 @@ public class DppApp {
 					e.printStackTrace();
 				} catch (NonUniqueResultException e) {
 					System.out.println(e.getMessage());
+				}
+			}
+			
+			// delete record (in WorkDone).
+			if (action == 3) {
+				Optional<WorkDone> optionalWorkDone = null;
+				System.out.print("For id ");
+				int id = ExtarFunctional.requestIntInput(1, Integer.MAX_VALUE);
+				try {
+					optionalWorkDone = serviceWorkDone.getWorkDoneById(id);
+				} catch (SQLException e) {
+					System.out.println("Problems with database :( ...");
+					e.printStackTrace();
+				} catch (NonUniqueResultException e) {
+					System.out.println(e.getMessage());
+				}
+				if (optionalWorkDone.isPresent()) {
+					System.out.println("Are you sure you want to delete this workDone?");
+					System.out.println(optionalWorkDone.get().toString());
+					System.out.println("y/n");
+					if (ExtarFunctional.toBeOrNotToBe()) {
+						try {
+							if (serviceWorkDone.deleteWorkDoneById(id)) {
+								System.out.println("Project was deleted successfully");
+							}
+						} catch (SQLException e) {
+							System.out.println("Problems with database :( ...");
+							e.printStackTrace();
+						}
+					}
+				} else {
+					System.out.println("workDone with id: " + id + " was not found.");
 				}
 			}
 		}
