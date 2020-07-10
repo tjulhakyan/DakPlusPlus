@@ -29,7 +29,7 @@ public class ServiceProjects {
 		System.out.println("Write the start date (example 31.12.2020):");
 		Instant before = Instant.now().minus(Duration.ofDays(1));
 		Date dateBefore = Date.from(before);
-		projects.setDateOfStart(getScannerDatum(dateBefore));
+		projects.setDateOfStart(ExtarFunctional.getScannerDatum(dateBefore));
 		
 		System.out.println("Do you want to enter description ? (y / n)");
 		if(ExtarFunctional.toBeOrNotToBe()) projects.setDescription(getScannerText());
@@ -39,7 +39,7 @@ public class ServiceProjects {
 		projects.setPrice(ExtarFunctional.requestIntInput(1, Integer.MAX_VALUE));
 
 		System.out.println("Write the end date (example 31.12.2020):");
-		projects.setEndDate(getScannerDatum(projects.getDateOfStart()));
+		projects.setEndDate(ExtarFunctional.getScannerDatum(projects.getDateOfStart()));
 		
 		return projects;
 	}
@@ -52,29 +52,29 @@ public class ServiceProjects {
 		return input;
 	}
 
-	private Date getScannerDatum(Date dateCheching) {
-		Scanner scanner = new Scanner(System.in);
-		String input = "";
-		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-		Date date = null;
-		do {
-			try {
-				input = scanner.next();
-				date = sdf.parse(input);
-				
-				if (date.before(dateCheching)) {
-					
-					System.out.println("You can't write a date earlier than "+(dateCheching==null? "NULL":sdf.format(dateCheching))+", try again:");
-					date = null;
-				}
-			} catch (Exception ignore) {
-				date = null;
-				System.out.println("Please enter a valid date.");
-			}
-			
-		} while (date == null);
-		return date;
-	}
+//	private Date getScannerDatum(Date dateCheching) {
+//		Scanner scanner = new Scanner(System.in);
+//		String input = "";
+//		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+//		Date date = null;
+//		do {
+//			try {
+//				input = scanner.next();
+//				date = sdf.parse(input);
+//				
+//				if (date.before(dateCheching)) {
+//					
+//					System.out.println("You can't write a date earlier than "+(dateCheching==null? "NULL":sdf.format(dateCheching))+", try again:");
+//					date = null;
+//				}
+//			} catch (Exception ignore) {
+//				date = null;
+//				System.out.println("Please enter a valid date.");
+//			}
+//			
+//		} while (date == null);
+//		return date;
+//	}
 
 	public Optional<Projects> getProjectById(int id) throws SQLException, NonUniqueResultException {
 		return projectsDAO.getElementById(id);

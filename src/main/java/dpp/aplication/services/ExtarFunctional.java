@@ -1,5 +1,7 @@
 package dpp.aplication.services;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -51,5 +53,29 @@ public interface ExtarFunctional {
 		Pattern pattern = Pattern.compile("^[a-zA-Z]*$");
 		Matcher matcher = pattern.matcher(inputText);
 		return matcher.find();
+	}
+	
+	public static Date getScannerDatum(Date dateCheching) {
+		Scanner scanner = new Scanner(System.in);
+		String input = "";
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+		Date date = null;
+		do {
+			try {
+				input = scanner.next();
+				date = sdf.parse(input);
+				
+				if (date.before(dateCheching)) {
+					
+					System.out.println("You can't write a date earlier than "+(dateCheching==null? "NULL":sdf.format(dateCheching))+", try again:");
+					date = null;
+				}
+			} catch (Exception ignore) {
+				date = null;
+				System.out.println("Please enter a valid date.");
+			}
+			
+		} while (date == null);
+		return date;
 	}
 }
