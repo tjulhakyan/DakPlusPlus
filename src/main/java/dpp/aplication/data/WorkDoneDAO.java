@@ -20,8 +20,18 @@ public class WorkDoneDAO implements DAO<WorkDone> {
 	public boolean addOneRow(WorkDone workDone) throws SQLException {
 		Connection conn = ConnectionFactory.getConnection();
 		String sql = "INSERT INTO WorkDone " 
-				+ "(`id`, `employeeId`, `projectId`, `date`, `hoursWorked`, `remarks`) "
-				+ "VALUES(NULL, ?, ?, STR_TO_DATE(?, '%d-%m-%Y'), ?,?);";
+				+ "(`employeeId`, `projectId`, `date`, `hoursWorked`, `remarks`, `id`) "
+				+ "VALUES(?, ?, STR_TO_DATE(?, '%d-%m-%Y'), ?,?,?);";
+
+		PreparedStatement statement = conn.prepareStatement(sql);
+		return fillInfoSQL(statement, workDone);
+	}
+	
+	public boolean editRowById(WorkDone workDone) throws SQLException {
+		Connection conn = ConnectionFactory.getConnection();
+		String sql = "UPDATE WorkDone "
+				+ "SET `employeeId`=?, `projectId`=?, `date`=STR_TO_DATE(?, '%d-%m-%Y'), `hoursWorked`=?, `remarks`=? "
+				+ "WHERE `id`=?;";
 
 		PreparedStatement statement = conn.prepareStatement(sql);
 		return fillInfoSQL(statement, workDone);
@@ -40,6 +50,7 @@ public class WorkDoneDAO implements DAO<WorkDone> {
 		
 		statement.setDouble(4, workDone.getHoursWorked());
 		statement.setString(5, workDone.getRemarks());
+		statement.setInt(6, workDone.getId());
 		return statement.executeUpdate() > 0;
 	}
 

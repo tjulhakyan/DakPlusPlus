@@ -65,6 +65,7 @@ public class ServiceWorkDone {
 		return workDone;
 	}
 	
+
 	private boolean checkingIdForProject(int id) throws SQLException, NonUniqueResultException {
 		Optional<Projects> optionalProject=serviceProjects.getProjectById(id);
 		if(optionalProject.isPresent()) {
@@ -96,6 +97,13 @@ public class ServiceWorkDone {
 
 	public boolean deleteWorkDoneById(int id) throws SQLException {
 		return workDoneDAO.deleteElementById(id);
+	}
+
+	public void editEmployeeById(int id) throws SQLException, NonUniqueResultException {
+		WorkDone workDone = new WorkDone();
+		workDone.setId(id);
+		workDone=fillAllInfoOverWorkDone(workDone);
+		if(this.workDoneDAO.editRowById(workDone)) System.out.println("The row has been edited successfully..");
 	}
 
 

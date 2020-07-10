@@ -231,7 +231,7 @@ public class DppApp {
 					System.out.println(e.getMessage());
 				}
 			}
-			
+
 			// delete record (in WorkDone).
 			if (action == 3) {
 				Optional<WorkDone> optionalWorkDone = null;
@@ -263,6 +263,19 @@ public class DppApp {
 					System.out.println("workDone with id: " + id + " was not found.");
 				}
 			}
+
+			// edit record (in WorkDone).
+			if (action == 4) {
+				try {
+					System.out.print("For id ");
+					int id = ExtarFunctional.requestIntInput(1, Integer.MAX_VALUE);
+					serviceWorkDone.editEmployeeById(id);
+				} catch (Exception e) {
+					System.out.println("Problems with database :( ...");
+					e.printStackTrace();
+				}
+			}
+
 		}
 
 		System.out.println("\n========================================================");
@@ -319,9 +332,9 @@ public class DppApp {
 		System.out.println("\nWhat do you want to do?");
 		System.out.println("Press 0  For exit.");
 		System.out.println("Press 1  Go back.");
-		System.out.println("Press 2  Add record in ForWorkDone.");
-		System.out.println("Press 3  Delete record by id in ForWorkDone.");
-		System.out.println("Press 4  Edit record by id in ForWorkDone.");
+		System.out.println("Press 2  Add record in WorkDone.");
+		System.out.println("Press 3  Delete record by id in WorkDone.");
+		System.out.println("Press 4  Edit record by id in WorkDone.");
 		System.out.println("Press 5  See all record.");
 	}
 
