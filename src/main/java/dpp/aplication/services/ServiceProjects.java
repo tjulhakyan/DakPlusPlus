@@ -29,17 +29,17 @@ public class ServiceProjects {
 		System.out.println("Write the start date (example 31.12.2020):");
 		Instant before = Instant.now().minus(Duration.ofDays(1));
 		Date dateBefore = Date.from(before);
-		projects.setDateOfStart(ExtarFunctional.getScannerDatum(dateBefore));
+		projects.setDateOfStart(ExtraFunctional.getScannerDatum(dateBefore));
 		
 		System.out.println("Do you want to enter description ? (y / n)");
-		if(ExtarFunctional.toBeOrNotToBe()) projects.setDescription(getScannerText());
+		if(ExtraFunctional.toBeOrNotToBe()) projects.setDescription(getScannerText());
 		else projects.setDescription(null);
 		
 		System.out.print("Price. ");
-		projects.setPrice(ExtarFunctional.requestIntInput(1, Integer.MAX_VALUE));
+		projects.setPrice(ExtraFunctional.requestIntInput(1, Integer.MAX_VALUE));
 
 		System.out.println("Write the end date (example 31.12.2020):");
-		projects.setEndDate(ExtarFunctional.getScannerDatum(projects.getDateOfStart()));
+		projects.setEndDate(ExtraFunctional.getScannerDatum(projects.getDateOfStart()));
 		
 		return projects;
 	}

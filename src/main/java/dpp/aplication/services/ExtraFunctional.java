@@ -7,7 +7,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public interface ExtarFunctional {
+public interface ExtraFunctional {
 	
 	public static int requestIntInput(int lower, int upper) {
 		System.out.print("write a number: ");

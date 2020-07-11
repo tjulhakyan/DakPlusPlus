@@ -7,11 +7,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import dpp.aplication.exseptions.NonUniqueResultException;
 import dpp.aplication.model.Employees;
+import dpp.aplication.model.InCome;
 import dpp.aplication.model.Projects;
 import dpp.aplication.model.WorkDone;
 
@@ -122,6 +124,39 @@ public class WorkDoneDAO implements DAO<WorkDone> {
 		PreparedStatement statement = conn.prepareStatement(sql);
 		statement.setInt(1, id);
 		return statement.executeUpdate() > 0;
+	}
+
+	public List<InCome> getRecentProjects(Date fromDate) throws SQLException {
+		Connection conn = ConnectionFactory.getConnection();
+		String sql="SELECT `projectId`, price-SUM((hoursWorked*salary/(22*8))) incomePerProject " + 
+				"FROM `Employees` " + 
+				"INNER JOIN `WorkDone` ON `WorkDone`.`employeeId` = `Employees`.`id` " + 
+				"INNER JOIN `Projects` ON `WorkDone`.`projectId` = `Projects`.`id` " + 
+				"WHERE endDate BETWEEN STR_TO_DATE(?, '%d-%m-%Y') AND DATE(NOW()) " + 
+				"GROUP BY projectId " + 
+				"ORDER BY `projectId`;";
+		PreparedStatement statement=conn.prepareStatement(sql);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		String strDate = sdf.format(fromDate);
+		statement.setString(1, strDate);
+		
+		ResultSet rs=statement.executeQuery();
+		
+		return parseIncome(rs);
+	}
+	
+	private List<InCome> parseIncome(ResultSet rs) throws SQLException {
+		List<InCome> resultList = new ArrayList<>();
+		while (rs.next()) {
+			InCome inCome = new InCome();
+			inCome.setProjectId(rs.getInt("projectId"));
+			inCome.setIncomePerProject(rs.getDouble("incomePerProject"));
+			
+			resultList.add(inCome);
+		}
+		
+		return resultList;
 	}
 
 }

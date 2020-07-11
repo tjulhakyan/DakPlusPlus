@@ -7,9 +7,10 @@ import java.util.Scanner;
 
 import dpp.aplication.exseptions.NonUniqueResultException;
 import dpp.aplication.model.Employees;
+import dpp.aplication.model.InCome;
 import dpp.aplication.model.Projects;
 import dpp.aplication.model.WorkDone;
-import dpp.aplication.services.ExtarFunctional;
+import dpp.aplication.services.ExtraFunctional;
 import dpp.aplication.services.ServiceEmployees;
 import dpp.aplication.services.ServiceProjects;
 import dpp.aplication.services.ServiceWorkDone;
@@ -23,25 +24,25 @@ public class DppApp {
 			printManu();
 
 			// choose the table
-			chooseManu = ExtarFunctional.requestIntInput(0, 3);
+			chooseManu = ExtraFunctional.requestIntInput(0, 3);
 
 			if (chooseManu != 0) {
 				if (chooseManu == 1) {
 					// choose the action for Employees
 					actionForEmployees();
-					action = ExtarFunctional.requestIntInput(0, 8);
+					action = ExtraFunctional.requestIntInput(0, 8);
 
 				}
 				if (chooseManu == 2) {
 					// choose the action for Projects
 					actionForProjects();
-					action = ExtarFunctional.requestIntInput(0, 5);
+					action = ExtraFunctional.requestIntInput(0, 5);
 				}
 
 				if (chooseManu == 3) {
 					// choose the action for Projects
 					actionForWorkDone();
-					action = ExtarFunctional.requestIntInput(0, 5);
+					action = ExtraFunctional.requestIntInput(0, 7);
 				}
 				if (action != 0 && action != 1)
 					doAction(chooseManu, action);
@@ -81,7 +82,7 @@ public class DppApp {
 			if (action == 4) {
 				try {
 					System.out.print("For id ");
-					int id = ExtarFunctional.requestIntInput(1, Integer.MAX_VALUE);
+					int id = ExtraFunctional.requestIntInput(1, Integer.MAX_VALUE);
 					serviceEmployees.editEmployeeById(id);
 				} catch (Exception e) {
 					System.out.println("Problems with database :( ...");
@@ -93,7 +94,7 @@ public class DppApp {
 			if (action == 5) {
 				Optional<Employees> optionalEmployees = null;
 				System.out.print("For id ");
-				int id = ExtarFunctional.requestIntInput(1, Integer.MAX_VALUE);
+				int id = ExtraFunctional.requestIntInput(1, Integer.MAX_VALUE);
 				try {
 					optionalEmployees = serviceEmployees.getEmployeeById(id);
 				} catch (SQLException e) {
@@ -106,7 +107,7 @@ public class DppApp {
 					System.out.println("Are you sure you want to delete this employee?");
 					System.out.println(optionalEmployees.get().toString());
 					System.out.println("y/n");
-					if (ExtarFunctional.toBeOrNotToBe()) {
+					if (ExtraFunctional.toBeOrNotToBe()) {
 						try {
 							if (serviceEmployees.deleteEmployeeById(id)) {
 								System.out.println("Employee was deleted successfully");
@@ -173,7 +174,7 @@ public class DppApp {
 			if (action == 3) {
 				Optional<Projects> optionalProjects = null;
 				System.out.print("For id ");
-				int id = ExtarFunctional.requestIntInput(1, Integer.MAX_VALUE);
+				int id = ExtraFunctional.requestIntInput(1, Integer.MAX_VALUE);
 				try {
 					optionalProjects = serviceProjects.getProjectById(id);
 				} catch (SQLException e) {
@@ -186,7 +187,7 @@ public class DppApp {
 					System.out.println("Are you sure you want to delete this project?");
 					System.out.println(optionalProjects.get().toString());
 					System.out.println("y/n");
-					if (ExtarFunctional.toBeOrNotToBe()) {
+					if (ExtraFunctional.toBeOrNotToBe()) {
 						try {
 							if (serviceProjects.deleteProjectById(id)) {
 								System.out.println("Project was deleted successfully");
@@ -238,7 +239,7 @@ public class DppApp {
 			if (action == 3) {
 				Optional<WorkDone> optionalWorkDone = null;
 				System.out.print("For id ");
-				int id = ExtarFunctional.requestIntInput(1, Integer.MAX_VALUE);
+				int id = ExtraFunctional.requestIntInput(1, Integer.MAX_VALUE);
 				try {
 					optionalWorkDone = serviceWorkDone.getWorkDoneById(id);
 				} catch (SQLException e) {
@@ -251,7 +252,7 @@ public class DppApp {
 					System.out.println("Are you sure you want to delete this workDone?");
 					System.out.println(optionalWorkDone.get().toString());
 					System.out.println("y/n");
-					if (ExtarFunctional.toBeOrNotToBe()) {
+					if (ExtraFunctional.toBeOrNotToBe()) {
 						try {
 							if (serviceWorkDone.deleteWorkDoneById(id)) {
 								System.out.println("Project was deleted successfully");
@@ -270,7 +271,7 @@ public class DppApp {
 			if (action == 4) {
 				try {
 					System.out.print("For id ");
-					int id = ExtarFunctional.requestIntInput(1, Integer.MAX_VALUE);
+					int id = ExtraFunctional.requestIntInput(1, Integer.MAX_VALUE);
 					serviceWorkDone.editEmployeeById(id);
 				} catch (Exception e) {
 					System.out.println("Problems with database :( ...");
@@ -284,6 +285,21 @@ public class DppApp {
 				try {
 					workDone = serviceWorkDone.getAllEmployee();
 					workDone.forEach(System.out::println);
+				} catch (SQLException e) {
+					System.out.println("Problems with database :( ...");
+					e.printStackTrace();
+				}
+			}
+			
+			// See a list of all recent projects.
+			if(action == 6) {
+				List<InCome> inCome = null;
+				try {
+					inCome = serviceWorkDone.getRecentProjects();
+					inCome.forEach(System.out::println);
+					
+					System.out.print("Total: "
+					+inCome.stream().filter(a -> a != null && a.getIncomePerProject() != 0).mapToDouble(InCome::getIncomePerProject).sum());
 				} catch (SQLException e) {
 					System.out.println("Problems with database :( ...");
 					e.printStackTrace();
@@ -303,7 +319,7 @@ public class DppApp {
 		do {
 
 			input = scanner.next();
-			if (!ExtarFunctional.checkingTextOnlyLetters(input))
+			if (!ExtraFunctional.checkingTextOnlyLetters(input))
 				System.out.println("Please enter correctly, try again:");
 			else
 				result = true;
@@ -350,6 +366,8 @@ public class DppApp {
 		System.out.println("Press 3  Delete record by id in WorkDone.");
 		System.out.println("Press 4  Edit record by id in WorkDone.");
 		System.out.println("Press 5  See all record.");
+		System.out.println("Press 6  See a list of all recent projects.");
+		System.out.println("Press 7  A top 3 Employees for a particular project.");
 	}
 
 }

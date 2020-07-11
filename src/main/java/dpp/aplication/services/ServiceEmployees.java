@@ -74,7 +74,7 @@ public class ServiceEmployees {
 	}
 
 
-	private Date getScannerDatum(String sms) {
+	private Date getScannerDatumWithBeforDate(String sms) {
 		System.out.println("Write " + sms + ": For example 31.01.2000");
 		Scanner scanner = new Scanner(System.in);
 		String input = "";
@@ -115,7 +115,7 @@ public class ServiceEmployees {
 			input = scanner.next();
 			// if our input need to be string
 			if (typeOfInput == "string")
-				isCorrectInput = ExtarFunctional.checkingTextOnlyLetters(input);
+				isCorrectInput = ExtraFunctional.checkingTextOnlyLetters(input);
 
 			// if our input need to be number
 			if (typeOfInput == "number")
@@ -148,19 +148,19 @@ public class ServiceEmployees {
 		employees.setName(getScannerText("Name", 2, "string"));
 		employees.setSurname(getScannerText("Surname", 2, "string"));
 		System.out.println("Do you want to enter phone number ? (y / n)");
-		if (ExtarFunctional.toBeOrNotToBe()) employees.setPhone(getScannerText("phone number", 9, "number"));
+		if (ExtraFunctional.toBeOrNotToBe()) employees.setPhone(getScannerText("phone number", 9, "number"));
 		else employees.setPhone(null);
 		
 		System.out.println("Do you want to enter phone number ICE ? (y / n)");
-		if (ExtarFunctional.toBeOrNotToBe()) employees.setPhoneICE(getScannerText("phone number ICE", 9, "number"));
+		if (ExtraFunctional.toBeOrNotToBe()) employees.setPhoneICE(getScannerText("phone number ICE", 9, "number"));
 		else employees.setPhone(null);
 		
 		System.out.println("Do you want to enter date of birthday ? (y / n)");
-		if (ExtarFunctional.toBeOrNotToBe()) employees.setBirthday(getScannerDatum("date of birthday"));
+		if (ExtraFunctional.toBeOrNotToBe()) employees.setBirthday(getScannerDatumWithBeforDate("date of birthday"));
 		else employees.setPhone(null);
 		
 		System.out.println("Do you want to enter salary ? (y / n)");
-		if (ExtarFunctional.toBeOrNotToBe()) employees.setSalary(getScannerSalary());
+		if (ExtraFunctional.toBeOrNotToBe()) employees.setSalary(getScannerSalary());
 		else employees.setPhone(null);
 		return employees;
 	}
