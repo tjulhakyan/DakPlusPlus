@@ -145,6 +145,10 @@ public class ServiceWorkDone {
 		return strDate;
 	}
 
+	public List<WorkDone> getTopThriEmployeesByProjectId(int id) throws SQLException {
+		
+		return workDoneDAO.getTopThriElementByProjectId(id);
+	}
 
 
 }

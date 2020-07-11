@@ -45,6 +45,7 @@ public class ProjectsDAO implements DAO<Projects>{
 		return statement.executeUpdate() > 0;
 	}
 
+	@Override
 	public Optional<Projects> getElementById(int id) throws SQLException, NonUniqueResultException {
 		Connection conn = ConnectionFactory.getConnection();
 		PreparedStatement statement = conn.prepareStatement("SELECT * FROM `Projects` WHERE Id = ?");

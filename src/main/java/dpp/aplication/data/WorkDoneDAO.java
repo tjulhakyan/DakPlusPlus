@@ -75,6 +75,7 @@ public class WorkDoneDAO implements DAO<WorkDone> {
 		return statement.executeUpdate() > 0;
 	}
 
+	@Override
 	public Optional<WorkDone> getElementById(int id) throws NonUniqueResultException, SQLException {
 		Connection conn = ConnectionFactory.getConnection();
 		String sql = "SELECT `WorkDone`.`id`, `Employees`.`name` name, `Employees`.`surname` surname,  `employeeId`, `projectId`," 
@@ -118,6 +119,7 @@ public class WorkDoneDAO implements DAO<WorkDone> {
 		return resultList;
 	}
 
+	@Override
 	public boolean deleteElementById(int id) throws SQLException {
 		Connection conn = ConnectionFactory.getConnection();
 		String sql = "DELETE FROM `WorkDone` WHERE `id`=?;";
@@ -157,6 +159,27 @@ public class WorkDoneDAO implements DAO<WorkDone> {
 		}
 		
 		return resultList;
+	}
+
+	public List<WorkDone> getTopThriElementByProjectId(int id) throws SQLException {
+		Connection conn = ConnectionFactory.getConnection();
+		
+		String sql = "SELECT `WorkDone`.`id`, `Employees`.`name` name, `Employees`.`surname` surname,  `employeeId`, `projectId`," 
+				+ "	`Projects`.`dateOfStart` dateOfStart, `Projects`.`endDate` endDate, `Projects`.`price`," 
+				+ "	date, hoursWorked, remarks "
+				+ " FROM `Employees` "
+				+ "	INNER JOIN `WorkDone` ON `WorkDone`.`employeeId` = `Employees`.`id`"
+				+ "	INNER JOIN `Projects` ON `Projects`.`id` = `WorkDone`.`projectId`"
+				+ " WHERE projectId = ?"
+				+ "	ORDER BY hoursWorked DESC"
+				+ " LIMIT 3;";
+		
+		PreparedStatement statement=conn.prepareStatement(sql);
+		
+		statement.setInt(1, id);
+		ResultSet rs=statement.executeQuery();
+
+		return parseWorkDoneEmployeesProjects(rs);
 	}
 
 }

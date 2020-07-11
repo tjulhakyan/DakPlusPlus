@@ -65,6 +65,7 @@ public class EmployeesDAO implements DAO<Employees> {
 		return fillInfoSQL(statement, employees);
 	}
 	
+	@Override
 	public boolean deleteElementById(int id) throws SQLException {
 		Connection conn = ConnectionFactory.getConnection();
 		String sql = "DELETE FROM `Employees` WHERE `id`=?;";
@@ -84,7 +85,7 @@ public class EmployeesDAO implements DAO<Employees> {
 		return fillInfoSQL(statement, employees);
 	}
 	
-	
+	@Override
 	public Optional<Employees> getElementById(int id) throws SQLException, NonUniqueResultException {
 		Connection conn = ConnectionFactory.getConnection();
 		PreparedStatement statement = conn.prepareStatement("SELECT * FROM `Employees` WHERE Id = ?");

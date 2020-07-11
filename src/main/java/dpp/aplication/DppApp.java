@@ -305,6 +305,20 @@ public class DppApp {
 					e.printStackTrace();
 				}
 			}
+			
+			// A top 3 Employees for a particular project
+			if(action == 7) {
+				List<WorkDone> workDone = null;
+				try {
+					System.out.print("For Project id ");
+					int id = ExtraFunctional.requestIntInput(1, Integer.MAX_VALUE);
+					workDone = serviceWorkDone.getTopThriEmployeesByProjectId(id);
+					workDone.forEach(System.out::println);
+				} catch (SQLException e) {
+					System.out.println("Problems with database :( ...");
+					e.printStackTrace();
+				}
+			}
 
 		}
 
