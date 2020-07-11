@@ -9,6 +9,8 @@ public class Projects {
 	private String description;
 	private int price;
 	private Date endDate;
+	private boolean isprojectIdInWorkDone;
+	
 	public int getId() {
 		return id;
 	}
@@ -39,6 +41,13 @@ public class Projects {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+	public boolean isIsprojectIdInWorkDone() {
+		return isprojectIdInWorkDone;
+	}
+	public void setIsprojectIdInWorkDone(boolean isprojectIdInWorkDone) {
+		this.isprojectIdInWorkDone = isprojectIdInWorkDone;
+	}
+
 	@Override
 	public String toString() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");

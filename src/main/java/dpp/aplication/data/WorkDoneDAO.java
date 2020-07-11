@@ -181,5 +181,29 @@ public class WorkDoneDAO implements DAO<WorkDone> {
 
 		return parseWorkDoneEmployeesProjects(rs);
 	}
+	
+	
+	public static boolean IsElementByProjectId(int id) throws SQLException {
+		Connection conn = ConnectionFactory.getConnection();
+		
+		String sql = "SELECT projectId FROM `WorkDone` "
+				+ " WHERE projectId = ?"
+				+ " LIMIT 1;";
+		
+		PreparedStatement statement=conn.prepareStatement(sql);
+		
+		statement.setInt(1, id);
+		ResultSet rs=statement.executeQuery();
+
+		WorkDone workDone = new WorkDone();
+		while (rs.next()) {
+			workDone.setProjectId(rs.getInt("projectId"));
+		}
+		
+		if(workDone.getProjectId()!=0) return true;
+		return false;
+	}
+	
+	
 
 }

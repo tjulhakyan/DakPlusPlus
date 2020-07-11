@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import dpp.aplication.exseptions.NonUniqueResultException;
 import dpp.aplication.model.Projects;
+import dpp.aplication.model.WorkDone;
 
 public class ProjectsDAO implements DAO<Projects>{
 
@@ -54,7 +55,10 @@ public class ProjectsDAO implements DAO<Projects>{
         List<Projects> projects = parseProjects(rs);
         
         if (projects.size() == 0) return Optional.empty();
-        if (projects.size() == 1) return Optional.of(projects.get(0));
+        if (projects.size() == 1) {
+//        	WorkDone.IsElementByProjectId(projects.get(0).getId());
+        	return Optional.of(projects.get(0));
+        }
         throw new NonUniqueResultException("Found multiple results for id: " + id);
 	}
 
