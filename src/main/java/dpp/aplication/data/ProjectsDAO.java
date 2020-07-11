@@ -82,8 +82,6 @@ public class ProjectsDAO implements DAO<Projects>{
 	public boolean deleteElementById(Projects OpProj) throws SQLException {
 		Connection conn = ConnectionFactory.getConnection();
 		String sql1 = "DELETE FROM `Projects` WHERE `id`="+OpProj.getId()+";";
-		
-		
 		Statement statement1=conn.createStatement();
 		
 		// if the project is associated with an employee then we delete the association in table WorkDone
@@ -94,6 +92,7 @@ public class ProjectsDAO implements DAO<Projects>{
 			statement2.execute(sql2);
 		}
 		
+		// we do both sql Query together
 		statement1.execute(sql1);
 		
 		try {

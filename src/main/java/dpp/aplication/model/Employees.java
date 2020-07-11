@@ -11,6 +11,8 @@ public class Employees {
 	private String phoneICE;
 	private Date birthday;
 	private int salary;
+	private boolean isEmployeeIdInWorkDone;
+	
 	public int getId() {
 		return id;
 	}
@@ -52,6 +54,12 @@ public class Employees {
 	}
 	public void setSalary(int salary) {
 		this.salary = salary;
+	}
+	public boolean isEmployeeIdInWorkDone() {
+		return isEmployeeIdInWorkDone;
+	}
+	public void setEmployeeIdInWorkDone(boolean isEmployeeIdInWorkDone) {
+		this.isEmployeeIdInWorkDone = isEmployeeIdInWorkDone;
 	}
 	
 	@Override

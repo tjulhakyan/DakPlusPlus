@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 import dpp.aplication.data.EmployeesDAO;
 import dpp.aplication.exseptions.NonUniqueResultException;
 import dpp.aplication.model.Employees;
+import dpp.aplication.model.Projects;
 
 public class ServiceEmployees {
 	private EmployeesDAO employeesDAO=new EmployeesDAO();
@@ -51,8 +52,8 @@ public class ServiceEmployees {
 		return employeesDAO.getElementById(id);
 	}
 	
-	public boolean deleteEmployeeById(int id) throws SQLException {
-		return employeesDAO.deleteElementById(id);
+	public boolean deleteEmployeeById(Employees OpEmp) throws SQLException {
+		return employeesDAO.deleteElementById(OpEmp);
 	}
 
 

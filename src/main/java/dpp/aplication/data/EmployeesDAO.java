@@ -12,7 +12,8 @@ import java.util.Optional;
 
 import dpp.aplication.data.ConnectionFactory;
 import dpp.aplication.exseptions.NonUniqueResultException;
-import dpp.aplication.model.Employees;;
+import dpp.aplication.model.Employees;
+import dpp.aplication.model.Projects;;
 
 public class EmployeesDAO implements DAO<Employees> {
 
@@ -66,12 +67,34 @@ public class EmployeesDAO implements DAO<Employees> {
 	}
 	
 	
-	public boolean deleteElementById(int id) throws SQLException {
+	public boolean deleteElementById(Employees OpProj) throws SQLException {
 		Connection conn = ConnectionFactory.getConnection();
-		String sql = "DELETE FROM `Employees` WHERE `id`=?;";
-		PreparedStatement statement = conn.prepareStatement(sql);
-		statement.setInt(1, id);
-		return statement.executeUpdate() > 0;
+		
+		String sql1 = "DELETE FROM `Employees` WHERE `id`="+OpProj.getId()+";";
+		
+		Statement statement1=conn.createStatement();
+		
+		// if the project is associated with an employee then we delete the association in table WorkDone
+		if(OpProj.isEmployeeIdInWorkDone()) {
+			String sql2 = "DELETE FROM `WorkDone` WHERE `employeeId`="+OpProj.getId()+";";
+			Statement statement2=conn.createStatement();
+			conn.setAutoCommit(false);
+			statement2.execute(sql2);
+		}
+		
+		// we do both sql Query together
+		statement1.execute(sql1);
+		
+		try {
+			conn.commit();
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+		
+		
+		
+		
 	}
 
 	@Override
@@ -94,7 +117,11 @@ public class EmployeesDAO implements DAO<Employees> {
         List<Employees> employee = parseEmployees(rs);
         
         if (employee.size() == 0) return Optional.empty();
-        if (employee.size() == 1) return Optional.of(employee.get(0));
+        if (employee.size() == 1) {
+        	if(WorkDoneDAO.IsElementByEmployeesId(employee.get(0).getId())) employee.get(0).setEmployeeIdInWorkDone(true);
+        	else employee.get(0).setEmployeeIdInWorkDone(false);
+        	return Optional.of(employee.get(0));
+        }
         throw new NonUniqueResultException("Found multiple results for id: " + id);
 	}
 	

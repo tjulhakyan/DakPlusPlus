@@ -188,18 +188,33 @@ public class WorkDoneDAO implements DAO<WorkDone> {
 		String sql = "SELECT projectId FROM `WorkDone` "
 				+ " WHERE projectId = ?"
 				+ " LIMIT 1;";
-		
 		PreparedStatement statement=conn.prepareStatement(sql);
-		
 		statement.setInt(1, id);
 		ResultSet rs=statement.executeQuery();
-
 		WorkDone workDone = new WorkDone();
+		
 		while (rs.next()) {
 			workDone.setProjectId(rs.getInt("projectId"));
 		}
-		
 		if(workDone.getProjectId()!=0) return true;
+		return false;
+	}
+	
+	public static boolean IsElementByEmployeesId(int id) throws SQLException {
+		Connection conn = ConnectionFactory.getConnection();
+		
+		String sql = "SELECT employeeId FROM `WorkDone` "
+				+ " WHERE employeeId = ?"
+				+ " LIMIT 1;";
+		PreparedStatement statement=conn.prepareStatement(sql);
+		statement.setInt(1, id);
+		ResultSet rs=statement.executeQuery();
+		WorkDone workDone = new WorkDone();
+		
+		while (rs.next()) {
+			workDone.setEmployeeId(rs.getInt("employeeId"));
+		}
+		if(workDone.getEmployeeId()!=0) return true;
 		return false;
 	}
 	

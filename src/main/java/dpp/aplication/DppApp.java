@@ -104,19 +104,41 @@ public class DppApp {
 					System.out.println(e.getMessage());
 				}
 				if (optionalEmployees.isPresent()) {
+//					System.out.println("Are you sure you want to delete this employee?");
+//					System.out.println(optionalEmployees.get().toString());
+//					System.out.println("y/n");
+//					if (ExtraFunctional.toBeOrNotToBe()) {
+//						try {
+//							if (serviceEmployees.deleteEmployeeById(id)) {
+//								System.out.println("Employee was deleted successfully");
+//							}
+//						} catch (SQLException e) {
+//							System.out.println("Problems with database :( ...");
+//							e.printStackTrace();
+//						}
+//					}
+					
+					
+					
+					
+					if (optionalEmployees.get().isEmployeeIdInWorkDone())
+						System.out.println("The Employee is associated with an project(s)");
 					System.out.println("Are you sure you want to delete this employee?");
 					System.out.println(optionalEmployees.get().toString());
 					System.out.println("y/n");
 					if (ExtraFunctional.toBeOrNotToBe()) {
 						try {
-							if (serviceEmployees.deleteEmployeeById(id)) {
-								System.out.println("Employee was deleted successfully");
+							if (serviceEmployees.deleteEmployeeById(optionalEmployees.get())) {
+								System.out.println("Project was deleted successfully");
 							}
 						} catch (SQLException e) {
 							System.out.println("Problems with database :( ...");
 							e.printStackTrace();
 						}
 					}
+					
+					
+					
 				} else {
 					System.out.println("Employee with id: " + id + " was not found.");
 				}
@@ -184,7 +206,8 @@ public class DppApp {
 					System.out.println(e.getMessage());
 				}
 				if (optionalProjects.isPresent()) {
-					if(optionalProjects.get().isIsprojectIdInWorkDone()) System.out.println("The project is associated with an employee");
+					if (optionalProjects.get().isIsprojectIdInWorkDone())
+						System.out.println("The project is associated with an employee");
 					System.out.println("Are you sure you want to delete this project?");
 					System.out.println(optionalProjects.get().toString());
 					System.out.println("y/n");
@@ -203,8 +226,8 @@ public class DppApp {
 				}
 			}
 
-			// (4)  Find all current projects.
-			// (5)  Find all projects started today.
+			// (4) Find all current projects.
+			// (5) Find all projects started today.
 			if (action == 4 || action == 5) {
 				List<Projects> projects = null;
 				try {
@@ -279,9 +302,9 @@ public class DppApp {
 					e.printStackTrace();
 				}
 			}
-			
+
 			// get all from WorkDone
-			if(action == 5) {
+			if (action == 5) {
 				List<WorkDone> workDone = null;
 				try {
 					workDone = serviceWorkDone.getAllEmployee();
@@ -291,24 +314,24 @@ public class DppApp {
 					e.printStackTrace();
 				}
 			}
-			
+
 			// See a list of all recent projects.
-			if(action == 6) {
+			if (action == 6) {
 				List<InCome> inCome = null;
 				try {
 					inCome = serviceWorkDone.getRecentProjects();
 					inCome.forEach(System.out::println);
-					
-					System.out.print("Total: "
-					+inCome.stream().filter(a -> a != null && a.getIncomePerProject() != 0).mapToDouble(InCome::getIncomePerProject).sum());
+
+					System.out.print("Total: " + inCome.stream().filter(a -> a != null && a.getIncomePerProject() != 0)
+							.mapToDouble(InCome::getIncomePerProject).sum());
 				} catch (SQLException e) {
 					System.out.println("Problems with database :( ...");
 					e.printStackTrace();
 				}
 			}
-			
+
 			// A top 3 Employees for a particular project
-			if(action == 7) {
+			if (action == 7) {
 				List<WorkDone> workDone = null;
 				try {
 					System.out.print("For Project id ");
