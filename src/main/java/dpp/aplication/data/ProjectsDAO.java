@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,7 @@ public class ProjectsDAO implements DAO<Projects>{
 		return statement.executeUpdate() > 0;
 	}
 
-	@Override
+
 	public Optional<Projects> getElementById(int id) throws SQLException, NonUniqueResultException {
 		Connection conn = ConnectionFactory.getConnection();
 		PreparedStatement statement = conn.prepareStatement("SELECT * FROM `Projects` WHERE Id = ?");
@@ -56,7 +57,8 @@ public class ProjectsDAO implements DAO<Projects>{
         
         if (projects.size() == 0) return Optional.empty();
         if (projects.size() == 1) {
-//        	WorkDone.IsElementByProjectId(projects.get(0).getId());
+        	if(WorkDoneDAO.IsElementByProjectId(projects.get(0).getId())) projects.get(0).setIsprojectIdInWorkDone(true);
+        	else projects.get(0).setIsprojectIdInWorkDone(false);
         	return Optional.of(projects.get(0));
         }
         throw new NonUniqueResultException("Found multiple results for id: " + id);
@@ -77,12 +79,29 @@ public class ProjectsDAO implements DAO<Projects>{
 		return resultList;
 	}
 
-	public boolean deleteElementById(int id) throws SQLException {
+	public boolean deleteElementById(Projects OpProj) throws SQLException {
 		Connection conn = ConnectionFactory.getConnection();
-		String sql = "DELETE FROM `Projects` WHERE `id`=?;";
-		PreparedStatement statement = conn.prepareStatement(sql);
-		statement.setInt(1, id);
-		return statement.executeUpdate() > 0;
+		String sql1 = "DELETE FROM `Projects` WHERE `id`="+OpProj.getId()+";";
+		
+		
+		Statement statement1=conn.createStatement();
+		
+		// if the project is associated with an employee then we delete the association in table WorkDone
+		if(OpProj.isIsprojectIdInWorkDone()) {
+			String sql2 = "DELETE FROM `WorkDone` WHERE `projectId`="+OpProj.getId()+";";
+			Statement statement2=conn.createStatement();
+			conn.setAutoCommit(false);
+			statement2.execute(sql2);
+		}
+		
+		statement1.execute(sql1);
+		
+		try {
+			conn.commit();
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
 	}
 
 	public List<Projects> getLinesWithDate(int action) throws SQLException {
@@ -98,6 +117,8 @@ public class ProjectsDAO implements DAO<Projects>{
 		ResultSet rs=statement.executeQuery();
 		return parseProjects(rs);
 	}
+
+
 
 
 }

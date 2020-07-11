@@ -184,12 +184,13 @@ public class DppApp {
 					System.out.println(e.getMessage());
 				}
 				if (optionalProjects.isPresent()) {
+					if(optionalProjects.get().isIsprojectIdInWorkDone()) System.out.println("The project is associated with an employee");
 					System.out.println("Are you sure you want to delete this project?");
 					System.out.println(optionalProjects.get().toString());
 					System.out.println("y/n");
 					if (ExtraFunctional.toBeOrNotToBe()) {
 						try {
-							if (serviceProjects.deleteProjectById(id)) {
+							if (serviceProjects.deleteProjectById(optionalProjects.get())) {
 								System.out.println("Project was deleted successfully");
 							}
 						} catch (SQLException e) {

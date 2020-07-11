@@ -56,8 +56,8 @@ public class ServiceProjects {
 		return projectsDAO.getElementById(id);
 	}
 
-	public boolean deleteProjectById(int id) throws SQLException {
-		return projectsDAO.deleteElementById(id);
+	public boolean deleteProjectById(Projects OpProj) throws SQLException {
+		return projectsDAO.deleteElementById(OpProj);
 	}
 
 	public List<Projects> getProjectsDate(int action) throws SQLException {

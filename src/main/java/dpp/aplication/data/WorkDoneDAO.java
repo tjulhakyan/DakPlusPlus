@@ -75,7 +75,7 @@ public class WorkDoneDAO implements DAO<WorkDone> {
 		return statement.executeUpdate() > 0;
 	}
 
-	@Override
+	
 	public Optional<WorkDone> getElementById(int id) throws NonUniqueResultException, SQLException {
 		Connection conn = ConnectionFactory.getConnection();
 		String sql = "SELECT `WorkDone`.`id`, `Employees`.`name` name, `Employees`.`surname` surname,  `employeeId`, `projectId`," 
@@ -119,7 +119,6 @@ public class WorkDoneDAO implements DAO<WorkDone> {
 		return resultList;
 	}
 
-	@Override
 	public boolean deleteElementById(int id) throws SQLException {
 		Connection conn = ConnectionFactory.getConnection();
 		String sql = "DELETE FROM `WorkDone` WHERE `id`=?;";
